@@ -55,3 +55,75 @@
 ```
 - **O que faz:** Mostra os valores dos outputs
 - **Quando usar:** Para consultar informações após o `apply`
+
+## 🎯 Resumo para os Alunos
+
+| Arquivo | Propósito | Analogia |
+|---------|-----------|----------|
+| **variables.tf** | Define parâmetros de entrada | Argumentos de uma função |
+| **main.tf** | Define a infraestrutura | Corpo da função |
+| **outputs.tf** | Define o que retornar | Return da função |
+| **terraform.tfstate** | Guarda o estado atual | Banco de dados do Terraform |
+
+### 🔑 Conceitos-Chave:
+
+1. **Provider**: O "tradutor" entre Terraform e a cloud
+2. **Resource**: Algo que você quer criar (bucket, VM, rede)
+3. **Variable**: Parâmetro configurável
+4. **Output**: Informação que você quer visualizar
+5. **State**: A "memória" do Terraform sobre o que foi criado
+
+---
+
+## 📚 Exercícios Práticos
+
+### Exercício 1: Modificar a região
+Altere a região padrão para `sa-east-1` (São Paulo) no arquivo `variables.tf`.
+
+### Exercício 2: Adicionar uma nova tag
+Adicione uma tag `Project = "Terraform Aula"` ao bucket.
+
+### Exercício 3: Criar um novo output
+Crie um output que mostre a região do bucket.
+
+**Dica:**
+```hcl
+output "bucket_region" {
+  description = "Região onde o bucket foi criado"
+  value       = aws_s3_bucket.bucket_da_aula.region
+}
+```
+
+---
+
+## 🚨 Erros Comuns e Soluções
+
+### Erro 1: "Error: Missing required provider"
+**Solução:** Execute `terraform init` primeiro
+
+### Erro 2: "Error: Unsupported argument"
+**Causa:** Usando argumentos deprecados (como `acl` dentro de `aws_s3_bucket`)
+**Solução:** Use recursos separados (`aws_s3_bucket_acl`)
+
+### Erro 3: "BucketAlreadyExists"
+**Causa:** Nome do bucket já existe globalmente
+**Solução:** Mude o `bucket_name_prefix` ou adicione um sufixo único
+
+---
+
+## 🎓 Boas Práticas
+
+1. ✅ **Sempre use variáveis** para valores que podem mudar
+2. ✅ **Sempre adicione descriptions** em variáveis e outputs
+3. ✅ **Sempre use tags** para organização
+4. ✅ **Sempre rode `plan`** antes de `apply`
+5. ✅ **Nunca edite** o arquivo `terraform.tfstate` manualmente
+6. ✅ **Versione seu código** no Git (exceto `.tfstate`)
+
+---
+
+## 📖 Recursos Adicionais
+
+- [Documentação Oficial do Terraform](https://www.terraform.io/docs)
+- [Registry do Terraform](https://registry.terraform.io/) - Providers e Módulos
+- [AWS Provider Documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
